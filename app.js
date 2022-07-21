@@ -34,20 +34,29 @@ keys.addEventListener('click', (e) => {
     const action = key.dataset.action; // custom attribute created in the html
     const currentDisplayNum = display.textContent;
     const previousKeyType = calculator.dataset.previousKeyType; // custom data attribute of the calculator class
-    const firstNum = calculator.dataset.firstNum;
+    let firstNum = calculator.dataset.firstNum;
     const operator = calculator.dataset.operator;
-    const secondNum = currentDisplayNum;
+    let secondNum = currentDisplayNum;
 
     if (key.className === 'key-number') {
-        calculator.dataset.previousKeyType = 'number';
-        if (currentDisplayNum === '0' || previousKeyType === 'operator') {
+        if (
+            currentDisplayNum === '0' ||
+            previousKeyType === 'operator' ||
+            previousKeyType === 'calculate'
+        ) {
             //!TODO: Fix the limitation after a operator is pressed
             display.textContent = keyContent;
         } else {
             display.textContent += keyContent; //!TODO: limit the number of chars
         }
+        calculator.dataset.previousKeyType = 'number';
     } else if (key.className === 'key-operator') {
-        if (firstNum && operator && previousKeyType !== 'operator') {
+        if (
+            firstNum &&
+            operator &&
+            previousKeyType !== 'operator' &&
+            previousKeyType !== 'calculate'
+        ) {
             // Calculate a chain of numbers and operators
             const calcValue = operate(firstNum, secondNum, operator);
             display.textContent = calcValue;
@@ -80,9 +89,14 @@ keys.addEventListener('click', (e) => {
         calculator.dataset.previousKeyType = 'decimal';
     } else if (action === 'calculate') {
         if (firstNum) {
+            if (previousKeyType === 'calculate') {
+                firstNum = currentDisplayNum;
+                secondNum = calculator.dataset.secondNum;
+            }
             // perform a calculation just after a number is clicked
             display.textContent = operate(firstNum, secondNum, operator);
         }
+        calculator.dataset.secondNum = secondNum;
         calculator.dataset.previousKeyType = 'calculate';
     }
 });
