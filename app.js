@@ -40,11 +40,12 @@ keys.addEventListener('click', (e) => {
             //!TODO: Fix the limitation after a operator is pressed
             display.textContent = keyContent;
         } else {
-            display.textContent += keyContent; //!TODO: limit the numnber of chars
+            display.textContent += keyContent; //!TODO: limit the number of chars
         }
     } else if (key.className === 'key-operator') {
-        calculator.dataset.firstNum = currentDisplayNum; //add a custom data attribute
-        calculator.dataset.previousKeyType = 'operator'; // add an another custom data attribute
+        calculator.dataset.previousKeyType = 'operator'; //add a custom data attribute
+        calculator.dataset.firstNum = currentDisplayNum; //add another custom data attribute
+        calculator.dataset.operator = action;
     } else if (action === 'clear') {
         console.log(keyContent);
     } else if (action === 'changeSign') {
@@ -59,6 +60,9 @@ keys.addEventListener('click', (e) => {
             display.textContent = currentDisplayNum + '.';
         }
     } else if (action === 'calculate') {
+        const firstNum = calculator.dataset.firstNum;
+        const operator = calculator.dataset.operator;
         const secondNum = currentDisplayNum;
+        display.textContent = operate(firstNum, secondNum, operator);
     }
 });
