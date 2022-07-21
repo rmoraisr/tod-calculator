@@ -71,10 +71,14 @@ keys.addEventListener('click', (e) => {
         //calculator.dataset.firstNum = currentDisplayNum; //add another custom data attribute
         calculator.dataset.operator = action;
     } else if (action === 'clear') {
-        console.log(keyContent);
+        display.textContent = '0';
+        calculator.dataset.firstNum = '';
+        calculator.dataset.secondNum = '';
+        calculator.dataset.operator = '';
         calculator.dataset.previousKeyType = 'clear';
     } else if (action === 'changeSign') {
-        console.log(keyContent);
+        display.textContent = currentDisplayNum * -1;
+        calculator.dataset.firstNum = currentDisplayNum;
         calculator.dataset.previousKeyType = 'changeSign';
     } else if (action === 'delete') {
         console.log(keyContent);
