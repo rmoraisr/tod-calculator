@@ -79,7 +79,10 @@ keys.addEventListener('click', (e) => {
         }
         calculator.dataset.previousKeyType = 'decimal';
     } else if (action === 'calculate') {
-        display.textContent = operate(firstNum, secondNum, operator);
+        if (firstNum) {
+            // perform a calculation just after a number is clicked
+            display.textContent = operate(firstNum, secondNum, operator);
+        }
         calculator.dataset.previousKeyType = 'calculate';
     }
 });
