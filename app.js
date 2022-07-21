@@ -1,4 +1,9 @@
+// Select the keypad buttons
 const keys = document.querySelector('.calculator-keys');
+// Select the display area, where teh result will be shown
+const display = document.querySelector('.calculator-display');
+// Select the whole calculator. This element will save the key presses as a custom data attribute
+const calculator = document.querySelector('.calculator');
 
 /**
  * Given two numbers and an operator, return the result of the operation.
@@ -23,24 +28,37 @@ function operate(num1, num2, operator) {
 
 /* Listening to the click event on the keys. */
 keys.addEventListener('click', (e) => {
-    // aliases to make life easier
+    /* Creating aliases for the variables that will be used in the function. */
     const key = e.target;
-    const keyContent = key.textContent;
+    const keyContent = key.textContent; // content of the key pressed
     const action = key.dataset.action; // custom attribute created in the html
+    const currentDisplayNum = display.textContent;
+    const previousKeyType = calculator.dataset.previousKeyType; // custom data attribute of the calculator class
 
     if (key.className === 'key-number') {
-        console.log(keyContent);
+        if (currentDisplayNum === '0' || previousKeyType === 'operator') {
+            //!TODO: Fix the limitation after a operator is pressed
+            display.textContent = keyContent;
+        } else {
+            display.textContent += keyContent; //!TODO: limit the numnber of chars
+        }
     } else if (key.className === 'key-operator') {
-        console.log(keyContent);
+        calculator.dataset.firstNum = currentDisplayNum; //add a custom data attribute
+        calculator.dataset.previousKeyType = 'operator'; // add an another custom data attribute
     } else if (action === 'clear') {
         console.log(keyContent);
     } else if (action === 'changeSign') {
         console.log(keyContent);
+        s;
     } else if (action === 'delete') {
         console.log(keyContent);
     } else if (action === 'decimal') {
-        console.log(keyContent);
+        if (currentDisplayNum.includes('.')) {
+            // avoid extra decimals points
+        } else {
+            display.textContent = currentDisplayNum + '.';
+        }
     } else if (action === 'calculate') {
-        console.log(keyContent);
+        const secondNum = currentDisplayNum;
     }
 });
