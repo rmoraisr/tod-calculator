@@ -81,14 +81,13 @@ keys.addEventListener('click', (e) => {
         calculator.dataset.firstNum = currentDisplayNum;
         calculator.dataset.previousKeyType = 'changeSign';
     } else if (action === 'delete') {
-        if (currentDisplayNum !== '0') {
+        if (currentDisplayNum !== '0' && previousKeyType === 'number') {
             if (currentDisplayNum.length > 1) {
                 display.textContent = currentDisplayNum.slice(0, -1);
             } else if (currentDisplayNum.length === 1) {
                 display.textContent = '0';
             }
         }
-        calculator.dataset.previousKeyType = 'delete';
     } else if (action === 'decimal') {
         if (previousKeyType === 'operator') {
             display.textContent = '0.';
