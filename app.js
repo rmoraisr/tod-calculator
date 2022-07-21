@@ -28,14 +28,18 @@ function operate(num1, num2, operator) {
 
 /* Listening to the click event on the keys. */
 keys.addEventListener('click', (e) => {
-    /* Creating aliases for the variables that will be used in the function. */
+    /* Getting the data from the event and the calculator. */
     const key = e.target;
     const keyContent = key.textContent; // content of the key pressed
     const action = key.dataset.action; // custom attribute created in the html
     const currentDisplayNum = display.textContent;
     const previousKeyType = calculator.dataset.previousKeyType; // custom data attribute of the calculator class
+    const firstNum = calculator.dataset.firstNum;
+    const operator = calculator.dataset.operator;
+    const secondNum = currentDisplayNum;
 
     if (key.className === 'key-number') {
+        calculator.dataset.previousKeyType = 'number';
         if (currentDisplayNum === '0' || previousKeyType === 'operator') {
             //!TODO: Fix the limitation after a operator is pressed
             display.textContent = keyContent;
@@ -43,26 +47,39 @@ keys.addEventListener('click', (e) => {
             display.textContent += keyContent; //!TODO: limit the number of chars
         }
     } else if (key.className === 'key-operator') {
+        if (firstNum && operator && previousKeyType !== 'operator') {
+            // Calculate a chain of numbers and operators
+            const calcValue = operate(firstNum, secondNum, operator);
+            display.textContent = calcValue;
+
+            // Update the last calculate value as first value
+            calculator.dataset.firstNum = calcValue;
+        } else {
+            // In case of no further calculations, se number in display is set to first value
+            calculator.dataset.firstNum = currentDisplayNum;
+        }
         calculator.dataset.previousKeyType = 'operator'; //add a custom data attribute
-        calculator.dataset.firstNum = currentDisplayNum; //add another custom data attribute
+        //calculator.dataset.firstNum = currentDisplayNum; //add another custom data attribute
         calculator.dataset.operator = action;
     } else if (action === 'clear') {
         console.log(keyContent);
+        calculator.dataset.previousKeyType = 'clear';
     } else if (action === 'changeSign') {
         console.log(keyContent);
-        s;
+        calculator.dataset.previousKeyType = 'changeSign';
     } else if (action === 'delete') {
         console.log(keyContent);
+        calculator.dataset.previousKeyType = 'delete';
     } else if (action === 'decimal') {
-        if (currentDisplayNum.includes('.')) {
-            // avoid extra decimals points
-        } else {
+        if (previousKeyType === 'operator') {
+            display.textContent = '0.';
+        } else if (!currentDisplayNum.includes('.')) {
+            // do nothing if has already a decimal
             display.textContent = currentDisplayNum + '.';
         }
+        calculator.dataset.previousKeyType = 'decimal';
     } else if (action === 'calculate') {
-        const firstNum = calculator.dataset.firstNum;
-        const operator = calculator.dataset.operator;
-        const secondNum = currentDisplayNum;
         display.textContent = operate(firstNum, secondNum, operator);
+        calculator.dataset.previousKeyType = 'calculate';
     }
 });
