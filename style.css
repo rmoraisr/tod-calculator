@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Foundation:wght@700&family=Ibarra+Real+Nova&family=Open+Sans&family=Roboto:wght@100&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    background-image: linear-gradient(236deg, #7498ebac, #acb6e5);
+    color: #ffff;
+}
+
+.container {
+    display: flex;
+    max-width: 25em;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20vh;
+}
+
+.calculator {
+    border-radius: 0.5em;
+    background: #374352;
+    box-shadow: 0 0 2em 0 rgba(0, 0, 0, 0.15);
+    color: inherit;
+    padding: 0.2em;
+}
+
+.calculator-display {
+    text-align: right;
+    padding: 0.2em 0.2em 0 0.2em;
+    font-size: 2.5em;
+}
+
+.calculator-keys {
+    display: inline-grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5em;
+    padding: 0.3em;
+}
+
+#key-zero {
+    grid-column: 1 / span 2;
+}
+
+button {
+    font-size: 1em;
+    color: inherit;
+    background: inherit;
+    border: 1em;
+    border-radius: 0.2em;
+    padding: 0.8em;
+    box-shadow: 0.1em 0.1em 0.1em #999;
+}
+
+button:active {
+    box-shadow: 0.1em 0.1em 0.1em 0.15em #666;
+    transform: translateY(4px);
+}
