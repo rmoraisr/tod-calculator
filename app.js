@@ -19,7 +19,7 @@ function operate(num1, num2, operator) {
     return actions[operator](num1, num2);
 }
 
-const getResultString = (key, currentDisplayNum, state) => {
+const createResultString = (key, currentDisplayNum, state) => {
     const keyContent = key.textContent; // content of the key pressed
     const keyType = getKeyType(key);
     const { firstNum, secondNum, operator, previousKeyType } = state;
@@ -81,11 +81,12 @@ const getResultString = (key, currentDisplayNum, state) => {
     }
 
     if (keyType === 'delete') {
+        //TODO: Check, probably bug
         return currentDisplayNum !== '0' &&
             (previousKeyType === 'number' || previousKeyType === 'decimal') &&
-            currentDisplayNum.length > 1
+            currentDisplayNum.length >= 1
             ? currentDisplayNum.slice(0, -1)
-            : currentDisplayNum.length < 1
+            : currentDisplayNum.length === 1
             ? '0'
             : currentDisplayNum;
     }
@@ -111,6 +112,49 @@ const getKeyType = (key) => {
     return action;
 };
 
+const updateCalculatorState = (
+    key,
+    calculator,
+    calcValue,
+    currentDisplayNum
+) => {
+    // Variables and properties needed
+    // 1. key
+    // 2. calculator
+    // 3. calcValue
+    // 4. currentDisplayNum
+    //
+
+    const keyType = getKeyType(key);
+    const { firstNum, operator, secondNum, previousKeyType } =
+        calculator.dataset;
+    calculator.dataset.previousKeyType = keyType;
+
+    if (keyType === 'operator') {
+        calculator.dataset.operator = key.dataset.action;
+        calculator.dataset.firstNum =
+            firstNum &&
+            operator &&
+            previousKeyType !== 'operator' &&
+            previousKeyType !== 'calculate'
+                ? calcValue
+                : currentDisplayNum;
+    }
+
+    if (keyType === 'clear') {
+        calculator.dataset.firstNum = '';
+        calculator.dataset.secondNum = '';
+        calculator.dataset.operator = '';
+        calculator.dataset.previousKeyType = 'clear';
+    }
+
+    if (keyType === 'calculate') {
+        calculator.dataset.secondNum =
+            firstNum && previousKeyType === 'calculate'
+                ? secondNum
+                : currentDisplayNum;
+    }
+};
 /**
  *================================================================
  * ========== Variables assignments and Functions Call ==========
@@ -126,6 +170,8 @@ keys.addEventListener('click', (e) => {
     const key = e.target;
     const currentDisplayNum = display.textContent;
     const state = calculator.dataset; // key to access custom data attribute of the calculator class
-    const resultString = getResultString(key, currentDisplayNum, state);
+    const resultString = createResultString(key, currentDisplayNum, state);
     display.textContent = resultString;
+    updateCalculatorState(key, calculator, resultString, currentDisplayNum);
 });
+console.log(calculator.dataset);
