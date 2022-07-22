@@ -38,19 +38,18 @@ keys.addEventListener('click', (e) => {
     const operator = calculator.dataset.operator;
     let secondNum = currentDisplayNum;
 
-    /**
-     * If the key is a number, return the key content if the current display number is 0, or if the
-     * previous key type was an operator or calculate, otherwise return the current display number plus
-     * the key content
-     * @returns the currentDisplayNum if the key.className is equal to 'key-number'.
-     */
+
     const createResultString = () => {
         // VAriables required
         // 1. key
         // 2. keyContent
         // 3. currentDisplayNum
         // 4. previousKeyType
+        // 5. action
 
+        /* Checking if the key pressed is a number. If it is, it checks if the current display number
+        is 0, or if the previous key type was an operator or calculate. If it is, it returns the key
+        content. Otherwise, it returns the current display number plus the key content. */
         if (key.className === 'key-number') {
             return currentDisplayNum === '0' ||
                 previousKeyType === 'operator' ||
@@ -58,10 +57,22 @@ keys.addEventListener('click', (e) => {
                 ? keyContent
                 : currentDisplayNum + keyContent;
 
-            //!TODO: add to calculator state: "calculator.dataset.previousKeyType = 'number';""
+            //TODO: add to calculator state: "calculator.dataset.previousKeyType = 'number';""
+        }
+
+        /* Checking if the previous key type was an operator or calculate, and if so, it returns 0.
+        Otherwise, it checks if the current display number includes a decimal point. If it does, it
+        returns the current display number. Otherwise, it returns the current display number plus a
+        decimal point. */
+        if (action === 'decimal') {
+            if (previousKeyType === 'operator' || previousKeyType === 'calculate') return '0.'
+            if (!currentDisplayNum.includes('.')) return currentDisplayNum + '.'
+            return currentDisplayNum // return when neither conditions are matched. Otherwise createResultString would return undefined
+
+            //TODO: add to calculator state: "calculator.dataset.previousKeyType = 'decimal';""
         }
     };
-    
+
     } else if (key.className === 'key-operator') {
         if (
             firstNum &&
@@ -99,16 +110,7 @@ keys.addEventListener('click', (e) => {
             } else if (currentDisplayNum.length === 1) {
                 display.textContent = '0';
             }
-        }
-    } else if (action === 'decimal') {
-        if (previousKeyType === 'operator') {
-            display.textContent = '0.';
-        } else if (!currentDisplayNum.includes('.')) {
-            // do nothing if has already a decimal
-            display.textContent = currentDisplayNum + '.';
-        }
-        calculator.dataset.previousKeyType = 'decimal';
-    } else if (action === 'calculate') {
+        } else if (action === 'calculate') {
         if (firstNum) {
             if (previousKeyType === 'calculate') {
                 firstNum = currentDisplayNum;
