@@ -19,7 +19,7 @@ function operate(num1, num2, operator) {
     return actions[operator](num1, num2);
 }
 
-const createResultString = (key, currentDisplayNum, state) => {
+const getResultString = (key, currentDisplayNum, state) => {
     const keyContent = key.textContent; // content of the key pressed
     const keyType = getKeyType(key);
     const { firstNum, secondNum, operator, previousKeyType } = state;
@@ -99,15 +99,16 @@ const createResultString = (key, currentDisplayNum, state) => {
  */
 const getKeyType = (key) => {
     const action = key.dataset.action;
-    if (!action) return 'number'
+    if (!action) return 'number';
     if (
         action === 'add' ||
         action === 'subtract' ||
         action === 'multiply' ||
-        action === 'divide' ||
-    ) return 'operator'
+        action === 'divide'
+    )
+        return 'operator';
     // For everything else
-    return action
+    return action;
 };
 
 /**
@@ -125,4 +126,6 @@ keys.addEventListener('click', (e) => {
     const key = e.target;
     const currentDisplayNum = display.textContent;
     const state = calculator.dataset; // key to access custom data attribute of the calculator class
+    const resultString = getResultString(key, currentDisplayNum, state);
+    display.textContent = resultString;
 });
