@@ -34,9 +34,7 @@ keys.addEventListener('click', (e) => {
     const action = key.dataset.action; // custom attribute created in the html
     const currentDisplayNum = display.textContent;
     const previousKeyType = calculator.dataset.previousKeyType; // custom data attribute of the calculator class
-    let firstNum = calculator.dataset.firstNum;
-    const operator = calculator.dataset.operator;
-    let secondNum = currentDisplayNum;
+
 
 
     const createResultString = () => {
@@ -46,6 +44,8 @@ keys.addEventListener('click', (e) => {
         // 3. currentDisplayNum
         // 4. previousKeyType
         // 5. action
+        // 6. calculator.dataset.firstNum
+        // 7. calculator.dataset.operator
 
         /* Checking if the key pressed is a number. If it is, it checks if the current display number
         is 0, or if the previous key type was an operator or calculate. If it is, it returns the key
@@ -71,28 +71,21 @@ keys.addEventListener('click', (e) => {
 
             //TODO: add to calculator state: "calculator.dataset.previousKeyType = 'decimal';""
         }
-    };
 
-    } else if (key.className === 'key-operator') {
-        if (
-            firstNum &&
+        if (key.className === 'key-operator') {
+            const firstNum = calculator.dataset.firstNum;
+            const operator = calculator.dataset.operator;
+
+            return firstNum &&
             operator &&
             previousKeyType !== 'operator' &&
             previousKeyType !== 'calculate'
-        ) {
-            // Calculate a chain of numbers and operators
-            const calcValue = operate(firstNum, secondNum, operator);
-            display.textContent = calcValue;
-
-            // Update the last calculate value as first value
-            calculator.dataset.firstNum = calcValue;
-        } else {
-            // In case of no further calculations, se number in display is set to first value
-            calculator.dataset.firstNum = currentDisplayNum;
+            ? operate(firstNum, currentDisplayNum, operator)
+            : currentDisplayNum
         }
-        calculator.dataset.previousKeyType = 'operator'; //add a custom data attribute
-        //calculator.dataset.firstNum = currentDisplayNum; //add another custom data attribute
-        calculator.dataset.operator = action;
+    };
+
+
     } else if (action === 'clear') {
         display.textContent = '0';
         calculator.dataset.firstNum = '';
