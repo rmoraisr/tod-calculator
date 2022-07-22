@@ -1,10 +1,3 @@
-// Select the keypad buttons
-const keys = document.querySelector('.calculator-keys');
-// Select the display area, where teh result will be shown
-const display = document.querySelector('.calculator-display');
-// Select the whole calculator. This element will save the key presses as a custom data attribute
-const calculator = document.querySelector('.calculator');
-
 /**
  * Given two numbers and an operator, return the result of the operation.
  * @param num1 - The first number to operate on.
@@ -26,26 +19,10 @@ function operate(num1, num2, operator) {
     return actions[operator](num1, num2);
 }
 
-/* Listening to the click event on the keys. */
-keys.addEventListener('click', (e) => {
-    /* Getting the data from the event and the calculator. */
-    const key = e.target;
+const createResultString = (key, currentDisplayNum, state) => {
     const keyContent = key.textContent; // content of the key pressed
     const action = key.dataset.action; // custom attribute created in the html
-    const currentDisplayNum = display.textContent;
-    const previousKeyType = calculator.dataset.previousKeyType; // custom data attribute of the calculator class
-});
-
-const createResultString = () => {
-    //! VAriables required
-    // 1. key
-    // 2. keyContent
-    // 3. currentDisplayNum
-    // 4. previousKeyType
-    // 5. action
-    // 6. calculator.dataset.firstNum
-    // 7. calculator.dataset.operator
-    // 8. calculator.dataset.secondNum
+    const { firstNum, secondNum, operator, previousKeyType } = state;
 
     /* Checking if the key pressed is a number. If it is, it checks if the current display number
         is 0, or if the previous key type was an operator or calculate. If it is, it returns the key
@@ -113,3 +90,20 @@ const createResultString = () => {
             : currentDisplayNum;
     }
 };
+
+/**
+ *================================================================
+ * ========== Variables assignments and Functions Call ==========
+ * ===============================================================
+ */
+
+const keys = document.querySelector('.calculator-keys'); // Select the keypad buttons
+const display = document.querySelector('.calculator-display'); // Select the display area, where teh result will be shown
+const calculator = document.querySelector('.calculator'); // Select the whole calculator. This element will save the key presses as a custom data attribute
+
+/* Listening to the click event on the keys. */
+keys.addEventListener('click', (e) => {
+    const key = e.target;
+    const currentDisplayNum = display.textContent;
+    const state = calculator.dataset; // key to access custom data attribute of the calculator class
+});
