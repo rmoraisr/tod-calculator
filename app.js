@@ -38,18 +38,30 @@ keys.addEventListener('click', (e) => {
     const operator = calculator.dataset.operator;
     let secondNum = currentDisplayNum;
 
-    if (key.className === 'key-number') {
-        if (
-            currentDisplayNum === '0' ||
-            previousKeyType === 'operator' ||
-            previousKeyType === 'calculate'
-        ) {
-            //!TODO: Fix the limitation after a operator is pressed
-            display.textContent = keyContent;
-        } else {
-            display.textContent += keyContent; //!TODO: limit the number of chars
+    /**
+     * If the key is a number, return the key content if the current display number is 0, or if the
+     * previous key type was an operator or calculate, otherwise return the current display number plus
+     * the key content
+     * @returns the currentDisplayNum if the key.className is equal to 'key-number'.
+     */
+    const createResultString = () => {
+        // VAriables required
+        // 1. key
+        // 2. keyContent
+        // 3. currentDisplayNum
+        // 4. previousKeyType
+
+        if (key.className === 'key-number') {
+            return currentDisplayNum === '0' ||
+                previousKeyType === 'operator' ||
+                previousKeyType === 'calculate'
+                ? keyContent
+                : currentDisplayNum + keyContent;
+
+            //!TODO: add to calculator state: "calculator.dataset.previousKeyType = 'number';""
         }
-        calculator.dataset.previousKeyType = 'number';
+    };
+    
     } else if (key.className === 'key-operator') {
         if (
             firstNum &&
