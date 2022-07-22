@@ -21,7 +21,7 @@ function operate(num1, num2, operator) {
 
 const createResultString = (key, currentDisplayNum, state) => {
     const keyContent = key.textContent; // content of the key pressed
-    const action = key.dataset.action; // custom attribute created in the html
+    const keyType = getKeyType(key);
     const { firstNum, secondNum, operator, previousKeyType } = state;
 
     /* Checking if the key pressed is a number. If it is, it checks if the current display number
@@ -39,7 +39,7 @@ const createResultString = (key, currentDisplayNum, state) => {
         Otherwise, it checks if the current display number includes a decimal point. If it does, it
         returns the current display number. Otherwise, it returns the current display number plus a
         decimal point. */
-    if (action === 'decimal') {
+    if (keyType === 'decimal') {
         if (previousKeyType === 'operator' || previousKeyType === 'calculate')
             return '0.';
         if (!currentDisplayNum.includes('.')) return currentDisplayNum + '.';
@@ -58,9 +58,9 @@ const createResultString = (key, currentDisplayNum, state) => {
             : currentDisplayNum;
     }
 
-    if (action === 'clear') return 0;
+    if (keyType === 'clear') return 0;
 
-    if (action === 'calculate') {
+    if (keyType === 'calculate') {
         const firstNum = calculator.dataset.firstNum;
         const operator = calculator.dataset.operator;
         const secondNum = calculator.dataset.secondNum;
@@ -74,13 +74,13 @@ const createResultString = (key, currentDisplayNum, state) => {
         }
     }
 
-    if (action === 'changeSign') {
+    if (keyType === 'changeSign') {
         currentDisplayNum = currentDisplayNum * -1;
         calculator.dataset.firstNum = currentDisplayNum;
         return currentDisplayNum;
     }
 
-    if (action === 'delete') {
+    if (keyType === 'delete') {
         return currentDisplayNum !== '0' &&
             (previousKeyType === 'number' || previousKeyType === 'decimal') &&
             currentDisplayNum.length > 1
@@ -89,6 +89,25 @@ const createResultString = (key, currentDisplayNum, state) => {
             ? '0'
             : currentDisplayNum;
     }
+};
+
+/**
+ * If the key has a data-action attribute, return the value of that attribute. Otherwise, return the
+ * string 'number'
+ * @param key - The key that was pressed
+ * @returns The type of key that is being pressed.
+ */
+const getKeyType = (key) => {
+    const action = key.dataset.action;
+    if (!action) return 'number'
+    if (
+        action === 'add' ||
+        action === 'subtract' ||
+        action === 'multiply' ||
+        action === 'divide' ||
+    ) return 'operator'
+    // For everything else
+    return action
 };
 
 /**
