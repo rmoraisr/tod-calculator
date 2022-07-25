@@ -15,7 +15,7 @@ body {
 
 .container {
     display: flex;
-    max-width: 25em;
+    max-width: 20em;
     justify-content: center;
     align-items: center;
     margin-left: auto;

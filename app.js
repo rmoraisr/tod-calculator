@@ -47,8 +47,8 @@ const createResultString = (key, currentDisplayNum, state) => {
     }
 
     if (key.className === 'key-operator') {
-        const firstNum = calculator.dataset.firstNum; //TODO: move to a new function
-        const operator = calculator.dataset.operator; // TODO: move to a new function
+        const firstNum = calculator.dataset.firstNum;
+        const operator = calculator.dataset.operator;
 
         return firstNum &&
             operator &&
@@ -154,6 +154,7 @@ const updateCalculatorState = (
                 : currentDisplayNum;
     }
 };
+
 /**
  *================================================================
  * ========== Variables assignments and Functions Call ==========
@@ -169,8 +170,9 @@ keys.addEventListener('click', (e) => {
     const key = e.target;
     const currentDisplayNum = display.textContent;
     const state = calculator.dataset; // key to access custom data attribute of the calculator class
+    // Pure Function
     const resultString = createResultString(key, currentDisplayNum, state);
-    display.textContent = resultString;
+    // Update states
+    display.innerText = resultString.toString().substring(0, 8);
     updateCalculatorState(key, calculator, resultString, currentDisplayNum);
 });
-console.log(calculator.dataset);
