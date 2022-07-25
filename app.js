@@ -81,14 +81,13 @@ const createResultString = (key, currentDisplayNum, state) => {
     }
 
     if (keyType === 'delete') {
-        //TODO: Check, probably bug
-        return currentDisplayNum !== '0' &&
-            (previousKeyType === 'number' || previousKeyType === 'decimal') &&
-            currentDisplayNum.length >= 1
-            ? currentDisplayNum.slice(0, -1)
-            : currentDisplayNum.length === 1
-            ? '0'
-            : currentDisplayNum;
+        if (
+            (currentDisplayNum !== '0' && previousKeyType !== 'operator') ||
+            previousKeyType !== 'equals'
+        )
+            if (currentDisplayNum.length > 1)
+                return currentDisplayNum.slice(0, -1);
+            else if (currentDisplayNum.length === 1) return '0';
     }
 };
 
