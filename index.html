@@ -11,34 +11,49 @@
     </head>
     <body>
         <div class="container">
+            <div class="note">
+                <p>Press "Enter" for equals and Escape for clear</p>
+            </div>
             <div class="calculator">
                 <div class="calculator-display">0</div>
                 <div class="calculator-keys">
-                    <button data-action="clear">AC</button>
+                    <button data-action="clear" data-code="Escape">AC</button>
                     <button data-action="changeSign">&plusmn;</button>
-                    <button data-action="delete">Del</button>
-                    <button class="key-operator" data-action="divide">
+                    <button data-action="delete" data-code="Backspace">
+                        Del
+                    </button>
+                    <button
+                        class="key-operator"
+                        data-action="divide"
+                        data-code="slash"
+                    >
                         &divide
                     </button>
-                    <button class="key-number">7</button>
-                    <button class="key-number">8</button>
-                    <button class="key-number">9</button>
-                    <button class="key-operator" data-action="multiply">
+                    <button class="key-number" data-code="Digit7">7</button>
+                    <button class="key-number" data-code="Digit8">8</button>
+                    <button class="key-number" data-code="Digit9">9</button>
+                    <button class="key-operator" data-action="multiply" data-code="Digit8 shiftKey">
                         &times;
                     </button>
-                    <button class="key-number">4</button>
-                    <button class="key-number">5</button>
-                    <button class="key-number">6</button>
-                    <button class="key-operator" data-action="subtract">
+                    <button class="key-number" data-code="Digit4">4</button>
+                    <button class="key-number" data-code="Digit5">5</button>
+                    <button class="key-number" data-code="Digit6">6</button>
+                    <button
+                        class="key-operator"
+                        data-action="subtract"
+                        data-code="Minus"
+                    >
                         -
                     </button>
-                    <button class="key-number">1</button>
-                    <button class="key-number">2</button>
-                    <button class="key-number">3</button>
-                    <button class="key-operator" data-action="add">+</button>
-                    <button class="key-number" id="key-zero">0</button>
-                    <button data-action="decimal">.</button>
-                    <button data-action="calculate">=</button>
+                    <button class="key-number" data-code="Digit1">1</button>
+                    <button class="key-number" data-code="Digit2">2</button>
+                    <button class="key-number" data-code="Digit3">3</button>
+                    <button class="key-operator" data-action="add" data-code="Equal shiftKey">+</button>
+                    <button class="key-number" id="key-zero" data-code="Digit0">
+                        0
+                    </button>
+                    <button data-action="decimal" data-code="Period">.</button>
+                    <button data-action="calculate" data-code="Enter">=</button>
                 </div>
             </div>
             <footer class="footer">

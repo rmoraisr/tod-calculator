@@ -176,3 +176,12 @@ keys.addEventListener('click', (e) => {
     display.innerText = resultString.toString().substring(0, 8);
     updateCalculatorState(key, calculator, resultString, currentDisplayNum);
 });
+
+/* Listening to the keydown event on the document. When a key is pressed, it will check if the key
+pressed has a data-code attribute. If it does, it will click on the button. */
+//! I do not know how to made thi resposive to all keys. If someonw knows...
+const KeyBoardListener = document.addEventListener('keydown', (e) => {
+    const keyDown = document.querySelector(`button[data-code='${e.code}']`);
+    if (keyDown !== null) return keyDown.click();
+    console.log(e.code);
+});

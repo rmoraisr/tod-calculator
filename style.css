@@ -13,9 +13,16 @@ body {
     color: #ffff;
 }
 
+.note p {
+    font-size: 1.5em;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-bottom: 1em;
+}
+
 .container {
     display: flex;
-    max-width: 20em;
+    max-width: 30em;
     justify-content: center;
     align-items: center;
     margin-left: auto;
