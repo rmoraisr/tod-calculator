@@ -18,9 +18,10 @@ function operate(num1, num2, operator) {
 
     return actions[operator](num1, num2);
 }
+operate(2, 12, 'multiply'); // 24
 
 const createResultString = (key, currentDisplayNum, state) => {
-    const keyContent = key.textContent; // content of the key pressed
+    const keyContent = key.innerText; // content of the key pressed
     const keyType = getKeyType(key);
     const { firstNum, secondNum, operator, previousKeyType } = state;
 
@@ -168,7 +169,7 @@ const calculator = document.querySelector('.calculator'); // Select the whole ca
 /* Listening to the click event on the keys. */
 keys.addEventListener('click', (e) => {
     const key = e.target;
-    const currentDisplayNum = display.textContent;
+    const currentDisplayNum = display.innerText;
     const state = calculator.dataset; // key to access custom data attribute of the calculator class
     // Pure Function
     const resultString = createResultString(key, currentDisplayNum, state);
@@ -183,5 +184,4 @@ pressed has a data-code attribute. If it does, it will click on the button. */
 const KeyBoardListener = document.addEventListener('keydown', (e) => {
     const keyDown = document.querySelector(`button[data-code='${e.code}']`);
     if (keyDown !== null) return keyDown.click();
-    console.log(e.code);
 });
